@@ -1,11 +1,28 @@
-compare.traps <- function(x, trap.id, fun = number.common.elements, threshold = 10){
+compare.traps <- function(x, y, trap.id, fun = number.common.elements, threshold = 10){
    # COMAPRE - Function for determining the similarity of trap data:
-   
+   # Arguments:
+   #
+   #   'x' : Vector, matrix or data frame of individual observations.
+   #   'y' : Vector, matrix or data frame of individual observations (same number of columns as 'x').
+   #   'trap.id' : Vector, matrix or data frame used to identify different traps (i.e. groups).
+   #   'fun' : Function used to perform sample comparisons.
+   # 
+   # Usage:
+   #   r <- compare.traps(x, y)    # Two samples 'x' and 'y'.
+   #   r <- compare.traps(x, trap.id = trap.id, threshold = 20)  # Multiple samples identified by group.
+
    if (missing(x)) stop("'x' trap observations must be a vector, matrix or data frame of observations.")
+   x <- as.data.frame(x)
+   if (missing(trap.id) & !missing(y)){
+      y <- as.data.frame(y)
+      trap.id <- c(rep(1, nrow(x)), rep(2, nrow(y)))
+      if (ncol(x) != ncol(y)) stop("'x' and 'y' must have the same number of columns.")
+      names(y) <- names(x)
+      x <- rbind(x, y)
+   }
    if (missing(trap.id)) stop("'trap.id' must be specified.")
     
-   # Convert input to data frame:
-   x <- as.data.frame(x)
+   # Convert input to data frame:   
    trap.id <- as.data.frame(trap.id)
    
    # Check that traps have the same number of observations:
@@ -35,7 +52,7 @@ compare.traps <- function(x, trap.id, fun = number.common.elements, threshold = 
    
    if (!is.null(res)){
       colnames(res) <- c("trap i", "trap j", "n")
-      res <- res[order(res[, 3], decreasing = TRUE), ]
+      res <- res[order(res[, 3], decreasing = TRUE), , drop = FALSE]
       res <- as.data.frame(res)
       str <- names(trap.id)
       tmp1 <- trap.id[res[,1],]

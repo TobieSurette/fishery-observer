@@ -1,6 +1,11 @@
 chela.plot <- function(carapace.width, chela.height, xlim = c(80, 145), ylim = c(10, 42), scale = 1, ...){
    # CHELA.PLOT - Chela height versus carapace width diagnostic plot.
-
+   #
+   # Arguments:
+   #   'carapace.width' : Vector of crab carapace width measurements (mm).
+   #   'chela.height'   : Vector of crab claw height measurements (mm).
+   #   'scale'          : Scaling factor used to increase or decrease the point sizes of the frequency observations.
+   
    # Create empty plot:
    plot(xlim, ylim, type = "n", xlab = "", ylab = "", xaxs = "i", yaxs = "i", ...)
    grid()  

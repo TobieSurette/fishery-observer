@@ -59,6 +59,6 @@ rplot(x$carapace.width, reference = 95)
 rplot(x$durometer, reference = 68)
 
 windows()
-chela.plot(x$carapace.width, x$chela.height.right, scale = 3)
+chela.plot(x$carapace.width, x$chela.height.right, scale = 2.5)
 
 
