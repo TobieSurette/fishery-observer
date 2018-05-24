@@ -51,13 +51,17 @@ compare.traps <- function(x, y, trap.id, fun = number.common.elements, threshold
    }
    
    if (!is.null(res)){
+      tmp <- NULL
+      for (i in 1:ncol(trap.id)) tmp <- cbind(tmp, unlist(lapply(strsplit(names(traps), "-"), function(x) x[i])))
+      tmp <- as.data.frame(tmp, stringsAsFactors = FALSE)
+      for (i in 1:ncol(trap.id)) class(tmp[, i]) <- class(trap.id[, i])
       colnames(res) <- c("trap i", "trap j", "n")
       res <- res[order(res[, 3], decreasing = TRUE), , drop = FALSE]
       res <- as.data.frame(res)
       str <- names(trap.id)
-      tmp1 <- trap.id[res[,1],]
+      tmp1 <- tmp[res[,1],]
       names(tmp1) <- paste0(str, "_i")
-      tmp2 <- trap.id[res[,2],]
+      tmp2 <- tmp[res[,2],]
       names(tmp2) <- paste0(str, "_j")
       res <- cbind(tmp1, tmp2, res["n"])
       rownames(res) <- NULL
